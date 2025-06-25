@@ -33,13 +33,16 @@ st.title("🧠 Prediksi Tingkat Stres 💆‍♀")
 st.write("Masukkan data berikut untuk mengetahui tingkat stres kamu:")
 
 # ====== Input dari pengguna (dengan emoji) ======
-humidity = st.number_input("💧 Humidity(%)", min_value=0.0, max_value=100.0, step=0.1)
-temperature = st.number_input("🌡Temperature (°C)", step=0.1)
-step_count = st.number_input("👣Step count", min_value=0, step=1)
+humidity = st.number_input("💧 Humidity (%)", min_value=0.0, max_value=100.0, step=0.1)
+temperature_f = st.number_input("🌡 Temperature (°F)", min_value=30.0, max_value=130.0, step=0.1)
+step_count = st.number_input("👣 Step count", min_value=0, step=1)
+
+# Konversi Fahrenheit ke Celsius
+temperature_c = (temperature_f - 32) * 5.0 / 9.0
 
 # ====== Prediksi saat tombol ditekan ======
 if st.button("🔍 Prediksi"):
-    input_data = np.array([humidity, temperature, step_count]).reshape(1, -1)
+    input_data = np.array([humidity, temperature_c, step_count]).reshape(1, -1)
     input_scaled = scaler.transform(input_data)
     prediction = model.predict(input_scaled)
     label = label_map.get(prediction[0], "Tidak Diketahui")
@@ -54,4 +57,4 @@ if st.button("🔍 Prediksi"):
     elif label == "Tinggi":
         st.markdown("🥵 Tingkat stres kamu Tinggi ")
     else:
-        st.markdown("❓ *Hasil tidak diketahui. Coba lagi.*")
+        st.markdown("❓ Hasil tidak diketahui. Coba lagi.")
