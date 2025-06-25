@@ -38,11 +38,11 @@ temperature_f = st.number_input("🌡 Temperature (°F)", min_value=30.0, max_va
 step_count = st.number_input("👣 Step count", min_value=0, step=1)
 
 # Konversi Fahrenheit ke Celsius
-temperature_c = (temperature_f - 32) * 5.0 / 9.0
+temperature_f = (temperature_f - 32) * 5.0 / 9.0
 
 # ====== Prediksi saat tombol ditekan ======
 if st.button("🔍 Prediksi"):
-    input_data = np.array([humidity, temperature_c, step_count]).reshape(1, -1)
+    input_data = np.array([humidity, temperature_f, step_count]).reshape(1, -1)
     input_scaled = scaler.transform(input_data)
     prediction = model.predict(input_scaled)
     label = label_map.get(prediction[0], "Tidak Diketahui")
